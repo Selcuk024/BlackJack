@@ -4,7 +4,9 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            Console.WriteLine("this is a test, write down something");
+            string message = Console.ReadLine();
+            Console.WriteLine("you chose this, correct?:" + message);
         }
     }
 }
