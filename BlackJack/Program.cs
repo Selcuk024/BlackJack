@@ -9,8 +9,9 @@ namespace BlackJack
         {
             Random random = new Random();
             Deck Deck = new Deck();
-            Card drawnCard = Deck.drawCard();
-            
+            Player player = new Player();
+            List<Player> players = new List<Player>();
+
             Console.ForegroundColor = ConsoleColor.Red;
             Console.Write("C");
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -41,12 +42,20 @@ namespace BlackJack
 
             string[] Array = { "Hit", "Pass", "Fold" };
             Console.WriteLine("The maximum amount of people allowed on this table is 4 people");
+            Console.WriteLine("Do you want to shuffle the deck?");
+            string yesOrNo = Console.ReadLine();
+            if (yesOrNo != "yes")
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("-1 point deduction");
+                Console.ResetColor();
+            }
+            else{
+                Console.WriteLine("Shuffling deck...");
+                Deck.Shuffle();
+            }
 
 
-            var randomIndex = random.Next(0, Array.Length);
-
-
-            Console.WriteLine(Array[randomIndex]);
             Console.WriteLine("How many people will play?");
             do
             {
@@ -55,22 +64,30 @@ namespace BlackJack
                     Console.WriteLine("The maximum amount of people allowed on this table is 4 people");
                 }
               people = Convert.ToInt32(Console.ReadLine());
-            } while (people > 7);
+            } while (people >= 5);
 
-            for(int i = 0; i < people; i++)
+
+             for(int i = 0; i < people; i++)
             {
-                Console.WriteLine("Please wait until the player has told you their move");
-                Thread.Sleep(300);
-                Console.WriteLine(Array[randomIndex]);
-                Console.WriteLine("Hit or Pass to the player depending on their move");
-                string dealerMove = Console.ReadLine();
-                if(dealerMove == "hit")
-                {
-
-
-                }
-
+                players.Add(new Player());
+                Console.WriteLine(players[i]);
             }
+
+                foreach (var hand in players)
+                {
+                Card drawnCard = Deck.drawCard();
+                Console.WriteLine("players move is:");
+                Console.WriteLine(Array[random.Next(0, Array.Length)]);
+                Console.WriteLine("Hit or Fold depending on the player choice");
+                string dealersMove = Console.ReadLine();
+                if (dealersMove == "hit")
+                    {
+                        player.addToHand(drawnCard);
+                        player.showHand();
+                    }
+                }
+ 
+
         }
         
     }
