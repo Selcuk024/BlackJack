@@ -12,7 +12,6 @@ namespace BlackJack
         List<Card> cards = new List<Card>();
         Random random = new Random();
 
-
         public Deck()
         {
         string[] category = { "Hearts", "Diamonds", "Clubs", "Spades" };

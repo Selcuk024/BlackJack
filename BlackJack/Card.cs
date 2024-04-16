@@ -10,7 +10,7 @@ namespace BlackJack
     {
         string suit;
         string rank;
-        int value;
+        public int value;
 
         public Card(string suit, string rank)
         {
