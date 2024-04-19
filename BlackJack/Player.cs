@@ -10,7 +10,11 @@ namespace BlackJack
     internal class Player
     {
         List<Card> hand = new List<Card>();
+        string[] Array = { "Hit", "Pass" };
+        string[] firstMoves = { "Hit", "Pass", "Double" };
+        string playerMove;
 
+        Random rand = new Random(); 
         public int bet { get; set; }
 
         public int balance {get; set;}
@@ -30,7 +34,7 @@ namespace BlackJack
             bet = number;
             balance = balance - bet;
 
-            Console.WriteLine($"Player {PlayerNumber}'s bet is: " + bet);
+            Console.WriteLine($"    Player {PlayerNumber}'s bet is: " + bet);
             Console.WriteLine($"Player {PlayerNumber}'s chips left: " + balance);
             return balance;
         }
@@ -51,7 +55,7 @@ namespace BlackJack
         {
             for (int i = 0; i < hand.Count; i++)
             {
-                Console.WriteLine(  hand[i]);
+                Console.WriteLine(hand[i]);
             }
         }
         public int calculateHandValue()
@@ -63,5 +67,11 @@ namespace BlackJack
             }
             return value;
         }
+        public string chooseMove()
+        {
+            playerMove = firstMoves[rand.Next(0, firstMoves.Length)];
+            return playerMove;
+        }
     }
+
 }

@@ -8,14 +8,13 @@ namespace BlackJack
     {
         static void Main(string[] args)
         {
-            string playerMove;
+
             Random random = new Random();
             Deck Deck = new Deck();
             List<Player> players = new List<Player>();
             Dealer dealer = new Dealer();
             List<Dealer> dealers = new List<Dealer>();
             int dealerCardValue = dealer.calculateHandValue();
-
             Console.ForegroundColor = ConsoleColor.Red;
             Console.Write("C");
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -44,10 +43,10 @@ namespace BlackJack
 
             int people = 0;
 
-            string[] Array = { "Hit", "Pass" };
+
             Console.WriteLine("The maximum amount of people allowed on this table is 4 people");
             dealers.Add(new Dealer());
-            Console.WriteLine("Do you want to shuffle the deck?");
+            Console.WriteLine("    Do you want to shuffle the deck?");
             string yesOrNo = Console.ReadLine();
             if (yesOrNo != "yes")
             {
@@ -61,7 +60,7 @@ namespace BlackJack
             }
 
 
-            Console.WriteLine("How many people will play?");
+            Console.WriteLine("    How many people will play?");
             do
             {
                 if (people >= 5)
@@ -86,10 +85,12 @@ namespace BlackJack
                 int chooseBet = random.Next(0, Player.balance);
                 Player.placeBets(chooseBet);
             }
+
             bool allPlayersFolded = false;
             bool dealerPassed = false;
-
+            bool firstMove = false;
             bool dealTwoCards = false;
+
             Console.WriteLine("Do you want to start dealing cards?");
             string dealTwo = Console.ReadLine().ToLower();
             if (dealTwo != "yes")
@@ -108,19 +109,22 @@ namespace BlackJack
                     dealTwoCards = true;
                 }
             }
-
+            
             if (dealTwoCards == true)
             {
                 for(int i = 0; i < 2; i++)
                 {
                     foreach (var Player in players)
                     {
-                        dealer.addPoints();
                         Card drawnCard = Deck.drawCard();
                         Player.addToHand(drawnCard);
+                        Console.WriteLine($"Player {Player.PlayerNumber}'s deck is: ");
                         Player.showHand();
                     }
+
                 }
+                dealer.addPoints();
+
             }
             else
             {
@@ -132,13 +136,22 @@ namespace BlackJack
                 allPlayersFolded = true;
                 foreach (var Player in players)
                 {
+                    string playerMove = Player.chooseMove();
 
                     int playerCardValue = Player.calculateHandValue();
                     if (!Player.Passed)
                     {
                         allPlayersFolded = false;
-                        Console.WriteLine($"Player {Player.PlayerNumber}'s turn: ");
-                        Console.WriteLine($"Player's move is: {playerMove = Array[random.Next(0, Array.Length)]}");
+                        Console.WriteLine($"Player {Player.PlayerNumber}'s turn.");
+
+                            if(firstMove == false)
+                        {
+                            firstMove = true;
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Player {Player.PlayerNumber}'s move is: {playerMove}");
+                        }
 
                         if (!Player.Passed)
                         {
@@ -173,6 +186,8 @@ namespace BlackJack
                             else if (Player.calculateHandValue() > 21 && dealerMove == "hit")
                             {
                                 dealer.removePoints();
+                                Player.Passed = true;
+
                             }
                             else if (Player.calculateHandValue() > 21 && dealerMove == "busted")
                             {
